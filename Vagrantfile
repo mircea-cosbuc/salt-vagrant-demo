@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :minion2 do |minion_config|
-    minion_config.vm.box = "debian/contrib-jessie64"
+    minion_config.vm.box = "ubuntu/trusty64"
     # The following line can be uncommented to use Centos
     # instead of Ubuntu.
     # Comment out the above line as well
@@ -64,6 +64,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.minion_config = "saltstack/etc/minion2"
       salt.minion_key = "saltstack/keys/minion2.pem"
       salt.minion_pub = "saltstack/keys/minion2.pub"
+      salt.install_type = "stable"
+      salt.verbose = true
+      salt.colorize = true
+      salt.bootstrap_options = "-P -c /tmp"
+    end
+  end
+
+  config.vm.define :minion3 do |minion_config|
+    minion_config.vm.box = "centos/7"
+    minion_config.ssh.insert_key = false
+    minion_config.vm.host_name = 'saltminion3.local'
+    minion_config.vm.network "private_network", ip: "192.168.50.13"
+
+    minion_config.vm.provision :salt do |salt|
+      salt.minion_config = "saltstack/etc/minion3"
+      salt.minion_key = "saltstack/keys/minion3.pem"
+      salt.minion_pub = "saltstack/keys/minion3.pub"
       salt.install_type = "stable"
       salt.verbose = true
       salt.colorize = true
