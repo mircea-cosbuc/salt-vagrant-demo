@@ -3,4 +3,8 @@ common_packages:
     - pkgs:
       - htop
       - strace
+      {% if grains['os'] == 'CentOS' %}
+      - vim-enhanced
+      {% else %}
       - vim
+      {% endif %}
