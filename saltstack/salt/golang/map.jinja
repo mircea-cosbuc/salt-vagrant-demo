@@ -1,0 +1,7 @@
+{% from "golang/defaults.yaml" import lookup_map with context %}
+{% set config = salt['grains.filter_by'](lookup_map, merge=salt['pillar.get']('golang:lookup', salt['grains.get']('golang:lookup', {}), merge=True), base='default') %}
+
+{% do config.update({
+  'archive_name': 'go%s.linux-amd64.tar.gz'|format(config.version),
+  'base_dir': '%s/golang/%s'|format(config.prefix, config.version)
+}) %}
