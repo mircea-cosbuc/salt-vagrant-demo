@@ -1,8 +1,3 @@
-common_packages:
-  pkg.installed:
-    - pkgs:
-        - software-properties-common
-
 mariadb_repo:
   pkgrepo.managed:
     - humanname: MariaDB repo
@@ -31,6 +26,7 @@ mariadb-aux:
         - rsync
         - python-mysqldb
         - xinetd
+        - software-properties-common
     - require:
         - pkgrepo: percona_repo
 
@@ -47,15 +43,36 @@ mariadb:
     - installed
     - name: mariadb-server
     - hold: True
-
     - require:
         - file: galera-conf
+
+
+mariadb_service:
+  service.running:
+    - name: mysql
+    - enable: True
+    - restart: True
+    - require:
+        - pkg: mariadb
 
 mariadb_root_pass:
   cmd.wait:
     - name: mysqladmin -u root password "m6d9d9ta"
     - wait:
-      - pkg: mariadb-server
+      - pkg: mariadb
+
+galera1:
+  host.present:
+    - ip: 192.168.66.11
+
+galera2:
+  host.present:
+    - ip: 192.168.66.12
+
+galera3:
+  host.present:
+    - ip: 192.168.66.13
+
 
 mysql_xtrabackup_account:
   mysql_user.present:
