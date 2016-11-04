@@ -70,6 +70,10 @@ id: minion3
 #  deployment: datacenter4
 #  cabinet: 13
 #  cab_u: 14-15
+grains:
+  gid: galera3
+  gaddr: 192.168.66.13
+  gweight: 0
 
 # Where cache data goes.
 #cachedir: /var/cache/salt/minion
