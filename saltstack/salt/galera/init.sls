@@ -1,7 +1,5 @@
 include:
-  - base:
-    - common.packages
-    - repositories
+  - repositories
 
 
 mariadb_extra:
@@ -16,13 +14,13 @@ mariadb_extra:
       - percona-toolkit
     - require:
         - pkgrepo: mariadb_repo
-        - pgkrepo: percona_repo
+        - pkgrepo: percona_repo
 
 
 {% for node, node_info in pillar['galera']['nodes'].iteritems() %}
-node_info['hostname']:
+{{ node_info['hostname'] }}:
   host.present:
-    - ip: node_info['ipaddr']
+    - ip: {{ node_info['ipaddr'] }}
 {% endfor %}
 
 
@@ -40,10 +38,12 @@ galera_config:
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
     - makedirs: True
     - source: salt://galera/files/galera.cnf
     - require:
         - pkg: mariadb
+        - cmd: mariadb_root_pass
 
 
 mariadb_service:
@@ -72,8 +72,6 @@ mysql_xtrabackup_account:
     - connection_user: root
     - connection_pass: "m6d9d9ta"
     - connection_charset: utf8
-    - saltenv:
-      - LC_ALL: "en_US.utf8"
     - require:
       - cmd: mariadb_root_pass
 

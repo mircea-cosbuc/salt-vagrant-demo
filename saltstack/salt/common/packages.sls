@@ -1,6 +1,3 @@
-include:
-  - base: repositories
-
 common_packages:
   pkg.installed:
     - pkgs:

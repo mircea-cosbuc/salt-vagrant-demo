@@ -1,5 +1,5 @@
 mariadb_repo:
-  pkrepo.managed:
+  pkgrepo.managed:
     - humanname: MariaDB repo
     - name: deb http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.1/debian jessie main
     - dist: jessie
@@ -8,7 +8,7 @@ mariadb_repo:
 
 
 percona_repo:
-  pkrepo.managed:
+  pkgrepo.managed:
     - humanname: Xtrabackup repo
     - name: deb http://repo.percona.com/apt jessie main
     - dist: jessie
